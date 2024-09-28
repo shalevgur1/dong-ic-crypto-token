@@ -1,13 +1,25 @@
-import React from "react";
-import token from "../../../declarations/token";
+import React, {useEffect, useState } from "react";
+import { token } from "../../../declarations/token";
+import { Principal } from '@dfinity/principal';
 
 function Balance() {
   
   const [inputValue, setInputValue] = useState("");
+  const [balanceResault, setBalanceResult] = useState("");
+  const [tokenSymbol, setTokenSymbol] = useState("");
+  const [isHidden, setHidden] = useState(true);
+
+  useEffect(async () => {
+    const result = await token.getSymbol();
+    setTokenSymbol(result.toLocaleString());
+  }, []);
 
   async function handleClick() {
-    console.log(inputValue);
-    //await token.balanceOf();
+    console.log(tokenSymbol);
+    const principal = Principal.fromText(inputValue);
+    const result = await token.balanceOf(principal);
+    setBalanceResult(result.toLocaleString() + " " + tokenSymbol);
+    setHidden(false);
   }
 
   return (
@@ -30,7 +42,7 @@ function Balance() {
           Check Balance
         </button>
       </p>
-      <p>This account has a balance of XYZ.</p>
+      <p hidden={isHidden}>This account has a balance of {balanceResault}.</p>
     </div>
   );
 }
