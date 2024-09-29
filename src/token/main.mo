@@ -1,6 +1,7 @@
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Debug "mo:base/Debug";
+import Nat "mo:base/Nat";
 
 actor Token {
 
@@ -25,6 +26,25 @@ actor Token {
 
     public shared(msg) func payOut() : async Text {
         Debug.print(debug_show(msg.caller));
-        return "Success";
+        if(balances.get(msg.caller) == null) {
+            let tokensAmount = 10000;
+            balances.put(msg.caller, tokensAmount);
+            return "Success";
+        } else {
+            return "Already Claimed";
+        }
     };
+
+    public shared(msg) func transfer(to : Principal, amount: Nat) : async Text {
+        let callerBalance = await balanceOf(msg.caller);
+        let toBalance = await balanceOf(to);
+        if(callerBalance >= amount) {
+            balances.put(msg.caller, callerBalance - amount);
+            balances.put(to, toBalance + amount);
+            return "Success";
+        }
+        else {
+            return "Insufficient Funds";
+        }
+    }
 }
