@@ -11,6 +11,7 @@ function Transfer() {
   const [isHidden, setHidden] = useState(true);
 
   async function handleClick() {
+    if (!transferTo || !transferAmount) return;
     setHidden(true);
     setDisabled(true);
     const recipient = Principal.fromText(transferTo);

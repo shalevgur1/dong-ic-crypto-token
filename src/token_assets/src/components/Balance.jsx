@@ -15,7 +15,7 @@ function Balance() {
   }, []);
 
   async function handleClick() {
-    console.log(tokenSymbol);
+    if(!inputValue) return;
     const principal = Principal.fromText(inputValue);
     const result = await token.balanceOf(principal);
     setBalanceResult(result.toLocaleString() + " " + tokenSymbol);
