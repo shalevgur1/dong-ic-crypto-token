@@ -1,29 +1,38 @@
-# Check your Balance
+# `DONG Token`
 
-1. Find out your principal id: 
+This is a demonstration of a cryptocurrency token called DONG, showcasing fundamental operations such as
+account management and transfer functionalities on the Internet Computer (IC) blockchain.
 
+## Running locally
+
+1. To run the DONG Token simulation locally with full functionality (including the frontend), you'll need to set it up on your local machine.
+This requires the ICP development infrastructure and creating a local replica of the ICP blockchain for development purposes.
+Follow this guide to get started: https://internetcomputer.org/docs/current/tutorials/developer-journey/level-0/dev-env
+
+2. Alternatively, if you only want to inspect the backend code, you can use online ICP development tools such as Motoko Playground.
+Link to Motoko Playground: https://m7sm4-2iaaa-aaaab-qabra-cai.ic0.app/
+
+
+To run the project locally after setting the environment, execute the following commands:
+1. In one terminal, start the local replica with:
+```bash
+dfx start
+```
+2. In another terminal, deploy the canisters and start the frontend with:
+```bash
+dfx deploy
+npm start
+```
+3. Open your web browser and navigate to the URL displayed in your terminal.
+
+
+***** Make sure to follow the instructions below to charge your local canister with tokens *****
+***** The application expects that the canister will include some tokens for distribution of the Token *****
+
+
+# Find out your principal id
 ```
 dfx identity get-principal
-```
-
-2. Save it somewhere.
-
-My principal id is: sh3ap-bxrea-nzap4-yhwgp-iwo27-7h4cq-xsbji-n5ybh-i67h7-j5w4u-3ae
-
-
-3. Format and store it in a command line variable:
-```
-OWNER_PUBLIC_KEY="principal \"$( \dfx identity get-principal )\""
-```
-
-4. Check that step 3 worked by printing it out:
-```
-echo $OWNER_PUBLIC_KEY
-```
-
-5. Check the owner's balance:
-```
-dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
 ```
 
 # Charge the Canister
@@ -33,7 +42,6 @@ dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
 ```
 dfx canister id token
 ```
-My canister id is: rrkah-fqaaa-aaaaa-aaaaq-cai
 
 2. Save canister ID into a command line variable:
 ```
@@ -49,38 +57,3 @@ echo $CANISTER_PUBLIC_KEY
 ```
 dfx canister call token transfer "($CANISTER_PUBLIC_KEY, 500_000_000)"
 ```
-
-# Deploy the Project to the Live IC Network
-
-1. Create and deploy canisters:
-
-```
-dfx deploy --network ic
-```
-
-2. Check the live canister ID:
-```
-dfx canister --network ic id token
-```
-
-3. Save the live canister ID to a command line variable:
-```
-LIVE_CANISTER_KEY="principal \"$( \dfx canister --network ic id token )\""
-```
-
-4. Check that it worked:
-```
-echo $LIVE_CANISTER_KEY
-```
-
-5. Transfer some tokens to the live canister:
-```
-dfx canister --network ic call token transfer "($LIVE_CANISTER_KEY, 50_000_000)"
-```
-
-6. Get live canister front-end id:
-```
-dfx canister --network ic id token_assets
-```
-7. Copy the id from step 6 and add .raw.ic0.app to the end to form a URL.
-e.g. zdv65-7qaaa-aaaai-qibdq-cai.raw.ic0.app
